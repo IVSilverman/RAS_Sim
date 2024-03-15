@@ -1,0 +1,60 @@
+;
+;	File 'topol.top' was generated
+;	By user: bioinformatics (1000)
+;	On host: Research
+;	At date: Mon Jun 19 18:20:25 2023
+;
+;	This is a standalone topology file
+;
+;	Created by:
+;	                     :-) GROMACS - gmx pdb2gmx, 2020 (-:
+;	
+;	Executable:   /opt/gromacs/bin/gmx
+;	Data prefix:  /opt/gromacs
+;	Working dir:  /home/bioinformatics/gromacs-2020/build/MUTATIONS/ENERGY_MINIMIZATION/HRAS/Q61H
+;	Command line:
+;	  gmx pdb2gmx -f HRAS.pdb -o HRAS.gro -ignh
+;	Force field was read from the standard GROMACS share directory.
+;
+
+; Include forcefield parameters
+#include "oplsaa.ff/forcefield.itp"
+
+;HRAS
+#include "topol_Protein_chain_B.itp"
+; Ligand position restraints
+#ifdef POSRES1
+#include "posre_HRAS.itp"
+#endif
+
+
+;Q61H
+#include "topol_Protein_chain_A.itp"
+; Ligand position restraints
+#ifdef POSRES2
+#include "posre_Q61H.itp"
+#endif
+
+; Include water topology
+#include "oplsaa.ff/spc.itp"
+
+#ifdef POSRES_WATER
+; Position restraint for each water oxygen
+[ position_restraints ]
+;  i funct       fcx        fcy        fcz
+   1    1       1000       1000       1000
+#endif
+
+; Include topology for ions
+#include "oplsaa.ff/ions.itp"
+
+[ system ]
+; Name
+Protein in water
+
+[ molecules ]
+; Compound        #mols
+Protein_chain_B     1
+Protein_chain_A     1
+SOL         57406
+NA               7
